@@ -1,0 +1,74 @@
+
+{% load static %}
+
+{% block content %}
+
+    <style>
+        body{
+            background-color: #0c0c17;
+            margin: 0;
+            animation: fadeInBody 0.5s ease forwards;
+        }
+        
+        @keyframes fadeInBody {
+          from {
+            opacity: 0; /* Start with zero opacity */
+            
+          }
+          to {
+            opacity: 1; /* Fade in to full opacity */
+        
+          }
+        }
+        .error-container {
+            text-align: center;
+            padding: 100px;
+            padding-top:20px;
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #f1f1f1;
+            margin-bottom: 40px;
+        }
+
+        .error-container img {
+            max-width: 100%;
+            height: 250px;
+            margin-bottom: 40px;
+        }
+
+        
+        @media only screen and (max-width: 767px) {
+            .error-container {
+                padding :20px;
+            }
+
+            h1 {
+                font-size: 22px;
+                color: #dc3545;
+                margin-bottom: 20px;
+            }
+        
+            p {
+                font-size: 14px;
+                color: #555;
+                margin-bottom: 40px;
+            }
+            
+          }
+    </style>
+
+    <div class="error-container">
+        <img src="{% static 'svg/500-error.svg' %}" alt="500 Error SVG" />
+        <h1>500 - Internal Server Error</h1>
+        <p>Oops! Something went wrong on our end. We're working to fix the issue. Please try again later.</p>
+    </div>
+
+    {% endblock content %}

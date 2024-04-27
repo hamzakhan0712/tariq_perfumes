@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/order_review.css' %}" />
+
+<main class="checkout-container">
+    <h1>Order</h1>
+    <form class="checkout-form" method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+
+        <div class="detail-form">
+            <div>
+                <h2>Contact Information</h2>
+                <div class="form-group">
+                    <label for="email-address">Email address</label>
+                    <input type="email" id="email-address" name="email-address" value="{{ request.user.email }}" autocomplete="email" class="form-control" readonly required>
+                </div>
+            </div>
+            <div>
+                <h2>Shipping Information</h2>
+                <div class="form-group">
+                    <label for="first-name">First name</label>
+                    <input type="text" id="first-name" name="first-name" value="{{ shipping_address.first_name }}" autocomplete="given-name" class="form-control" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last name</label>
+                    <input type="text" id="last-name" name="last-name" value="{{ shipping_address.last_name }}" autocomplete="family-name" class="form-control"readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" value="{{ shipping_address.address }}" autocomplete="street-address" class="form-control"readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="apartment">Apartment, Flat, etc.</label>
+                    <input type="text" id="apartment" name="apartment" value="{{ shipping_address.apartment }}" autocomplete="address-line2" class="form-control" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" value="{{ shipping_address.city }}" autocomplete="address-level2" class="form-control" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State / Province</label>
+                    <input type="text" id="state" name="state" value="{{ shipping_address.state }}" autocomplete="address-level1" class="form-control" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="postal-code">Postal Code</label>
+                    <input type="text" id="postal-code" name="postal-code" value="{{ shipping_address.postal_code }}" autocomplete="postal-code" class="form-control" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="phone-number">Phone</label>
+                    <input type="tel" id="phone-number" name="phone-number" value="{{ shipping_address.phone_number }}" autocomplete="tel" class="form-control" readonly required>
+                </div>
+            </div>
+            
+            <h2 class="h2-delivery">Delivery Method</h2>
+            <div class="delivery">
+                <div class="form-group delivery-method">
+                    <label for="standard-delivery">
+                        <input type="radio" id="standard-delivery" name="delivery-method" checked readonly required>
+                        <span class="radio-option">Standard Delivery</span>
+                        <span class="radio-text">4–10 business days</span>
+                        <span class="delivery-cost">₹255.00</span>
+                    </label>
+                </div>
+                <div class="form-group delivery-method">
+                    <label for="express-delivery">
+                        <input type="radio" id="express-delivery" name="delivery-method" readonly required>
+                        <span class="radio-option">Express Delivery</span>
+                        <span class="radio-text">2–5 business days</span>
+                        <span class="delivery-cost">₹550.00</span>
+                    </label>
+                </div>
+            </div>            
+        </div>
+
+        <div class="order-summary">
+
+            <div class="payment-stages">
+                <div class="stage-container">
+                  <div class="stage-radio "></div>
+                  <div class="stage">Order</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                </div>
+                <div class="stage-container">
+                  <div class="stage-radio activ"></div>
+                  <div class="stage">Review</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                </div>
+                <div class="stage-container">
+                  <div class="stage-radio"></div>
+                  <div class="stage">Payment</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                </div>
+                <div class="stage-container">
+                  <div class="stage-radio"></div>
+                  <div class="stage">Confirmation</div>
+                </div>
+            </div>
+
+            <div class="order-summary-box">
+                <h2>Order Summary</h2>
+                <div class="items-in-cart">
+                    <ul class="cart-list">
+                            <li class="cart-item" data-order-item-id="{{ product.id }}" data-quantity="{{ product.quantity }}" data-price="{{ product.price }}">  
+                                <div class="item-details">
+                                    <div class="item-image">
+                                        <a href="{% url 'product_detail' product_id=product.id %}" >
+                                           <img src="{{ product.main_image_url }}" alt="{{ product.name }} ">
+                                        </a>
+                                        
+                                        <div class="quantity-counter">
+                                            <span class="quantity" id="quantity">{{ order_item.quantity }} Items</span>
+                                        </div>
+                                      
+                                    </div>
+                                    <div class="item-info">
+                                        <span class="item-name">{{ product.name }} [{{ product.quantity }} {{ product.unit }}]</span>
+                                        <div class="category-subcategory">
+                                            <span class="item-category">{{ product.categories.all.0 }}</span>        
+                                        </div>
+                                        <div class="pricing">
+                                            <span class="item-price">₹{{ product.price }}/-</span>
+                                            <span class="item-previous-price">₹{{ product.previous_price }}/-</span>
+                                        </div>
+                                        
+                                        {% if product.in_stock_retail and not product.in_stock_wholesale %}
+                                            <span class="item-stock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                In Stock (Retail)
+                                            </span>
+                                        {% elif not product.in_stock_retail and product.in_stock_wholesale %}
+                                            <span class="item-stock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                In Stock (Wholesale)
+                                            </span>
+                                        {% elif product.in_stock_retail and product.in_stock_wholesale %}
+                                            <span class="item-stock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                In Stock (Retail and Wholesale)
+                                            </span>
+                                        {% else %}
+                                            <span class="item-stock clock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16.5 12"/></svg>
+                                                Coming Soon
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+    
+                <dl class="order-details">
+                    <div>
+                        <dt>Total Items </dt>
+                        <dd>
+                            <span class="total_items" id="total_items_product">{{ order_item.quantity }} Items</span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Subtotal</dt>
+                        <dd>
+                            <span class="subtotal_value" id="subtotal_value"> ₹{{ subtotal_formatted }}/-</span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Shipping</dt>
+                        <dd>
+                            <span class="shipping_value" id="shipping_value">₹{{ shipping_price_formatted }}/-</span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Taxes</dt>
+                        <dd>
+                            <span class="taxes_value" id="taxes_value">₹{{ taxes_formatted }}/-</span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Total Amount</dt>
+                        <dd>
+                            <span class="total_value" id="total_value">₹{{ total_price_formatted }}/-</span>
+                        </dd>
+                    </div>
+                </dl>
+                {% if order_item %}
+                    <input type="hidden" name="order_id" value="{{ order_item.order.id }}">
+                {% elif product %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                {% endif %}
+                <div class="confirm-order-btn">
+                    <button type="submit" id="cancel-button">Cancel Order</button>
+                    <button type="submit" id="submit-button">Proceed Payment</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+
+{% endblock content %}

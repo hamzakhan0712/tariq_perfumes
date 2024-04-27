@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <header>
+            <h1>Contact Customer Support</h1>
+        </header>
+
+        <section id="faqs">
+            <h2>Frequently Asked Questions</h2>
+            <ul>
+                <li>
+                    <h3>How can I track my order?</h3>
+                    <p>You can track your order by logging into your account and navigating to the order tracking section.</p>
+                </li>
+                <li>
+                    <h3>What are your shipping options?</h3>
+                    <p>We offer standard and express shipping options. Standard shipping typically takes 3-5 business days, while express shipping takes 1-2 business days.</p>
+                </li>
+                <!-- Add more FAQs as needed -->
+            </ul>
+        </section>
+
+        <section id="contact-info">
+            <h2>Contact Information</h2>
+            <p>Email: <a href="mailto:support@example.com">support@example.com</a></p>
+            <p>Phone: <a href="tel:+1234567890">123-456-7890</a></p>
+            <p>Address: 123 Main St, City, State, Zip</p>
+        </section>
+
+        <section id="support-hours">
+            <h2>Support Hours</h2>
+            <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
+            <p>Saturday - Sunday: Closed</p>
+        </section>
+
+        <section id="additional-resources">
+            <h2>Additional Resources</h2>
+            <ul>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <!-- Add more links to additional resources -->
+            </ul>
+        </section>
+    </div>
+{% endblock content %}

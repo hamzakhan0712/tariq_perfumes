@@ -1,0 +1,503 @@
+{% extends 'base.html' %}
+
+{% load static %} 
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/purchase_product.css' %}" />
+
+
+<main class="checkout-container">
+    <h1>Order</h1>
+    <form class="checkout-form" method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+
+        <div class="detail-form">
+            <div>
+                <h2>Contact Information</h2>
+                <div class="form-group">
+                    <label for="email-address">Email address</label>
+                    <input type="email" id="email-address" name="email-address" autocomplete="email" class="form-control" required>
+                </div>
+            </div>
+            <div>
+                <h2>Shipping Information</h2>
+                <div class="form-group">
+                    <label for="first-name">First name</label>
+                    <input type="text" id="first-name" name="first-name" autocomplete="given-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last name</label>
+                    <input type="text" id="last-name" name="last-name" autocomplete="family-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" autocomplete="street-address" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="apartment">Apartment, Flat, etc.</label>
+                    <input type="text" id="apartment" name="apartment" autocomplete="address-line2" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" autocomplete="address-level2" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State / Province</label>
+                    <input type="text" id="state" name="state" autocomplete="address-level1" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="postal-code">Postal Code</label>
+                    <input type="text" id="postal-code" name="postal-code" autocomplete="postal-code" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone-number">Phone</label>
+                    <input type="tel" id="phone-number" name="phone-number" autocomplete="tel" class="form-control" required>
+                </div>
+            </div>
+            
+            <h2 class="h2-delivery">Delivery Method</h2>
+            <div class="delivery">
+                <div class="form-group delivery-method">
+                    <label for="standard-delivery">
+                        <input type="radio" id="standard-delivery" name="delivery-method" checked>
+                        <span class="radio-option">Standard Delivery</span>
+                        <span class="radio-text">4–10 business days</span>
+                        <span class="delivery-cost">₹255.00</span>
+                    </label>
+                </div>
+                <div class="form-group delivery-method">
+                    <label for="express-delivery">
+                        <input type="radio" id="express-delivery" name="delivery-method">
+                        <span class="radio-option">Express Delivery</span>
+                        <span class="radio-text">2–5 business days</span>
+                        <span class="delivery-cost">₹550.00</span>
+                    </label>
+                </div>
+            </div>            
+        </div>
+
+        <div class="order-summary">
+
+            <div class="payment-stages">
+                <div class="stage-container">
+                  <div class="stage-radio activ"></div>
+                  <div class="stage">Order</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                </div>
+                <div class="stage-container">
+                  <div class="stage-radio"></div>
+                  <div class="stage">Review</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                </div>
+                <div class="stage-container">
+                  <div class="stage-radio"></div>
+                  <div class="stage">Payment</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                </div>
+                <div class="stage-container">
+                  <div class="stage-radio"></div>
+                  <div class="stage">Confirmation</div>
+                </div>
+            </div>
+
+            <div class="order-summary-box">
+                <h2>Order Summary</h2>
+                
+                <div class="items-in-cart">
+                    <ul class="cart-list">
+                        {% if cart_order_items %}
+                            {% for item in cart_order_items %}
+                                <li class="cart-item" data-order-item-id="{{ item.id }}" data-quantity="{{ item.quantity }}" data-price="{{ item.price }}">
+                                    <a href="#" class="remove-item-link" onclick="deleteCartItem('{{ item.id }}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+                                            <path d="M18 6 6 18"/>
+                                            <path d="m6 6 12 12"/>
+                                        </svg>
+                                    </a>
+                                    <div class="item-details">
+                                        <div class="item-image">
+                                            <a href="{% url 'product_detail' product_id=item.product.id %}" >
+                                                <img src="{{ item.product.main_image_url }}" alt="{{ item.product.name }}">
+                                            </a>
+                                        </div>
+                                        <div class="item-info">
+                                            <span class="item-name">{{ item.product.name }}</span>
+                                            <div class="category-subcategory">
+                                                <span class="item-category">{{ item.product.categories.all.0 }}</span>
+                                                <span class="divider"></span>
+                                                <span class="item-unit">{{ item.product.quantity }} {{ item.product.unit }}</span>
+                                            </div>
+                                            <div class="pricing">
+                                                <span class="item-price">₹{{ item.price }}/-</span>
+                                                <span class="item-previous-price">₹{{ item.product.previous_price }}/-</span>
+                                            </div>
+                                            <div class="quantity-counter">
+                                                <a href="#" onclick="removeFromCart({{ item.product.id }})" class="quantity_btn decrease_btn" data-product-id="{{ item.product.id }}">-</a>
+                                                <span class="quantity" id="quantity_{{ item.product.id }}">{{ item.quantity }}</span>
+                                                <a href="#" onclick="addToCart({{ item.product.id }})" class="quantity_btn increase_btn" data-product-id="{{ item.product.id }}">+</a>
+                                              </div>
+    
+                                            {% if item.product.in_stock_retail and not item.product.in_stock_wholesale %}
+                                                <span class="item-stock">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                    In Stock (Retail)
+                                                </span>
+                                            {% elif not item.product.in_stock_retail and item.product.in_stock_wholesale %}
+                                                <span class="item-stock">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                    In Stock (Wholesale)
+                                                </span>
+                                            {% elif item.product.in_stock_retail and item.product.in_stock_wholesale %}
+                                                <span class="item-stock">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                    In Stock (Retail and Wholesale)
+                                                </span>
+                                            {% else %}
+                                                <span class="item-stock clock">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16.5 12"/></svg>
+                                                    Coming Soon
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                                <script>
+                                    function addToCart(product_id) {
+                                      fetch(`/add_to_cart/${product_id}/`, {
+                                          method: 'POST',
+                                          headers: {
+                                              'X-CSRFToken': getCookie('csrftoken'), // Fetch CSRF token from cookie
+                                          }
+                                      })
+                                      .then(response => response.json())
+                                      .then(data => {
+                                          console.log(data.new_quantity); // Handle new quantity
+                                          updateQuantity(product_id, data.new_quantity); // Update quantity in UI
+                                          updateCartSummary(data);
+                                      })
+                                      .catch(error => console.error('Error:', error));
+                                  }
+                          
+                                  function removeFromCart(product_id) {
+                                      fetch(`/remove_from_cart/${product_id}/`, {
+                                          method: 'POST',
+                                          headers: {
+                                              'X-CSRFToken': getCookie('csrftoken'), // Fetch CSRF token from cookie
+                                          }
+                                      })
+                                      .then(response => response.json())
+                                      .then(data => {
+                                          console.log(data.new_quantity); // Handle new quantity
+                                          updateQuantity(product_id, data.new_quantity); // Update quantity in UI
+                                          updateCartSummary(data);
+                                      })
+                                      .catch(error => console.error('Error:', error));
+                                  }
+                          
+                                  function updateQuantity(product_id, newQuantity) {
+                                      const quantityElement = document.getElementById(`quantity_${product_id}`);
+                                      quantityElement.innerText = newQuantity;
+                                  }
+                          
+                                  function deleteCartItem(itemId) {
+                                    fetch(`/delete_from_cart/${itemId}/`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'X-CSRFToken': '{{ csrf_token }}'
+                                        }
+                                    })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            // If deletion is successful, remove the item from the DOM
+                                            const itemElement = document.querySelector(`.cart-item[data-order-item-id="${itemId}"]`);
+                                            if (itemElement) {
+                                                itemElement.remove();
+                                                return response.json(); // Parse response JSON
+                                            }
+                                        } else {
+                                            console.error('Failed to delete item from cart');
+                                        }
+                                    })
+                                    .then(data => {
+                                        // Update cart summary with data from the server
+                                        if (data) {
+                                            updateCartSummary(data);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                    });
+                                  }
+                          
+                                  // Function to get CSRF token from cookie
+                                  function getCookie(name) {
+                                      let cookieValue = null;
+                                      if (document.cookie && document.cookie !== '') {
+                                          const cookies = document.cookie.split(';');
+                                          for (let i = 0; i < cookies.length; i++) {
+                                              const cookie = cookies[i].trim();
+                                              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                  break;
+                                              }
+                                          }
+                                      }
+                                      return cookieValue;
+                                  }
+                                </script>
+                            {% endfor %}
+                        {% elif product %}  
+                            <li class="cart-item" data-order-item-id="{{ product.id }}" data-quantity="{{ product.quantity }}" data-price="{{ product.price }}">  
+                                <div class="item-details">
+                                    <div class="item-image">
+                                        <a href="{% url 'product_detail' product_id=product.id %}" >
+                                           <img src="{{ product.main_image_url }}" alt="{{ product.name }} ">
+                                        </a>
+                                        
+                                        <div class="quantity-counter">
+                                            <a href="#" class="quantity_btn decrease_btn" data-product-id="{{ product.id }}">-</a>
+
+                                            <span class="quantity" id="quantity"></span>
+                                            <input type="hidden" name="quantity" id="hidden_quantity" value="">
+
+                                            <a href="#" class="quantity_btn increase_btn" data-product-id="{{ product.id }}">+</a>
+                                        </div>
+                                      
+                                    </div>
+                                    <div class="item-info">
+                                        <span class="item-name">{{ product.name }} [{{ product.quantity }} {{ product.unit }}]</span>
+                                        <div class="category-subcategory">
+                                            <span class="item-category">{{ product.categories.all.0 }}</span>        
+                                        </div>
+                                        <div class="pricing">
+                                            <span class="item-price">₹{{ product.price }}/-</span>
+                                            <span class="item-previous-price">₹{{ product.previous_price }}/-</span>
+                                        </div>
+                                        
+                                        {% if product.in_stock_retail and not product.in_stock_wholesale %}
+                                            <span class="item-stock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                In Stock (Retail)
+                                            </span>
+                                        {% elif not product.in_stock_retail and product.in_stock_wholesale %}
+                                            <span class="item-stock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                In Stock (Wholesale)
+                                            </span>
+                                        {% elif product.in_stock_retail and product.in_stock_wholesale %}
+                                            <span class="item-stock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                In Stock (Retail and Wholesale)
+                                            </span>
+                                        {% else %}
+                                            <span class="item-stock clock">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16.5 12"/></svg>
+                                                Coming Soon
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="empty-cart-message">Your cart is empty</li>
+                        {% endif %}
+                    </ul>
+                </div>
+    
+                <dl class="order-details">
+                    <div>
+                        <dt>Total Items </dt>
+                        <dd>
+                            {% if order_item %}
+                            <span class="total_items" id="total_items_product">{{ order_item.quantity }}</span>
+                            {% elif product %}
+                            <span class="total_items" id="total_items_product"></span>
+                            <input type="hidden" name="product_id" value="">
+                            {% endif %}
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Subtotal</dt>
+                        <dd>
+                            {% if order_item %}
+                            <span class="subtotal_value" id="subtotal_value">{{ user_cart.subtotal }}</span>
+                            {% elif product %}
+                            <span class="subtotal_value" id="subtotal_value">{{ user_cart.subtotal }}</span>
+                            <input type="hidden" name="subtotal_value" value="">
+                            {% endif %}
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Shipping</dt>
+                        <dd>
+                            {% if order_item %}
+                                <span class="shipping_value" id="shipping_value"> </span>
+                            {% elif product %}
+                            <span class="shipping_value" id="shipping_value"> </span>
+                            <!-- Add a hidden input field for shipping_value -->
+                            <input type="hidden" name="shipping_value" value="">
+                            {% endif %}
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Taxes</dt>
+                        <dd>
+                            {% if order_item %}
+                                <span class="taxes_value" id="taxes_value"></span>
+                            {% elif product %}
+                                <span class="taxes_value" id="taxes_value"></span>
+                                <!-- Add a hidden input field for taxes_value -->
+                                <input type="hidden" name="taxes_value" value="">
+                            {% endif %}
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>Total Amount</dt>
+                        <dd>
+                            {% if order_item %}
+                                <span class="total_value" id="total_value"></span>
+                            {% elif product %}
+                                <span class="total_value" id="total_value"></span>
+                                <!-- Add a hidden input field for total_value -->
+                                <input type="hidden" name="total_value" value="">
+                            {% endif %}
+                        </dd>
+                    </div>
+                    
+                </dl>
+
+                {% if order_item %}
+                    <input type="hidden" name="order_id" value="{{ order_item.order.id }}">
+                {% elif product %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                {% endif %}
+
+                <div class="confirm-order-btn">
+                    <button type="submit" id="submit-button">Proceed Order</button>
+                </div>
+    
+            </div>
+
+        </div>
+        
+
+    </form>
+
+</main>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to get URL parameter value by name
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        var subtotalValue = document.getElementById('subtotal_value');
+        var taxesValue = document.getElementById('taxes_value');
+        var totalValue = document.getElementById('total_value');
+        var shippingValue = document.getElementById('shipping_value');
+        var quantityValue = document.getElementById('total_items_product');
+    
+        // Function to calculate subtotal
+        function calculateSubtotal(price, quantity) {
+            return price * quantity;
+        }
+    
+        // Function to calculate taxes
+        function calculateTaxes(subtotal, taxPercentage) {
+            return (subtotal * taxPercentage) / 100;
+        }
+    
+        // Function to update values
+
+        function updateValues() {
+            var price = parseFloat("{{ product.price }}") || 0; // Default value if NaN
+            var quantity = parseInt(quantityValue.textContent) || 1; // Default value 1 if NaN or 0
+            if (isNaN(quantity) || quantity < 1) {
+                quantity = 1;
+            }
+            var taxPercentage = parseFloat("{{ product.tax_percentage }}") || 0; // Default value if NaN
+            var shippingPrice = parseFloat("{{ product.shipping_price }}") || 0; // Default value if NaN
+
+            // Multiply shipping by quantity
+            shippingPrice *= quantity;
+
+            var subtotal = calculateSubtotal(price, quantity);
+            var taxes = calculateTaxes(subtotal, taxPercentage);
+            var total = subtotal + taxes + shippingPrice;
+
+            // Display "FREE" if total exceeds ₹10000
+            if (total > 10000) {
+                shippingValue.textContent = "FREE";
+            } else {
+                shippingValue.textContent = "₹" + shippingPrice.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+            }
+
+            // Set values to spans
+            subtotalValue.textContent = "₹" + subtotal.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+            taxesValue.textContent = "₹" + taxes.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+            totalValue.textContent = "₹" + total.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+            // Update hidden input fields with the same values
+            document.querySelector('input[name="subtotal_value"]').value = subtotal;
+            document.querySelector('input[name="taxes_value"]').value = taxes;
+            document.querySelector('input[name="shipping_value"]').value = shippingPrice;
+            document.querySelector('input[name="total_value"]').value = total;
+            document.querySelector('input[name="quantity"]').value = quantity;
+        }
+
+
+        // Initial update
+        updateValues();
+
+        // Get the quantity parameter from the URL
+        var quantity = getUrlParameter('quantity');
+
+        // Set the quantity value in the span element
+        var quantitySpan = document.getElementById('quantity');
+        var totalitemsSpan = document.getElementById('total_items_product');
+        if (quantity !== null) {
+            quantitySpan.textContent = quantity;
+            totalitemsSpan.textContent = quantity;
+        }
+
+        const decreaseBtn = document.querySelector('.decrease_btn');
+        const increaseBtn = document.querySelector('.increase_btn');
+        const quantityDisplay = document.querySelector('.quantity');
+        const totalitemsDisplay = document.querySelector('.total_items');
+        
+        const minQuantity = 1; // Minimum allowed quantity
+
+        decreaseBtn.addEventListener('click', function() {
+            if (quantity > minQuantity) {
+                quantity--;
+                quantityDisplay.textContent = quantity;
+                totalitemsDisplay.textContent = quantity;
+                updateValues();
+        
+            }
+        });
+
+        increaseBtn.addEventListener('click', function() {
+            quantity++;
+            quantityDisplay.textContent = quantity;
+            totalitemsDisplay.textContent = quantity;
+            updateValues();
+           
+        });
+
+        
+        
+    });
+</script>
+
+
+
+{% endblock content %}

@@ -1,0 +1,229 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Oriental Perfumes</title>
+    <meta
+      name="description"
+      content="Log in to your Oriental Perfumes account to explore our exotic collection of fragrances."
+    />
+    <meta
+      name="keywords"
+      content="oriental perfume, login, sign in, fragrance, exotic scents"
+    />
+    <meta name="author" content="Your Company Name" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <!-- Include Font Awesome for the eye icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+
+  <body>
+
+    <div class="login-main-container">
+
+      <div class="login-svg-container">
+
+          <div class="login-text">
+              <h1>Welcome to <span class="brand-name">TARIQ</span> Perfumes</h1>
+              <p>Discover the finest collection of oriental perfumes and fragrances.</p>
+              <p>Please log in to access your account</p>
+          </div>
+
+          <img class="login-svg" src="{% static 'svg/login.svg' %}" alt="Login SVG" />
+      </div>
+   
+      <div class="form-container-login">
+
+        <img src="{% static 'images/logo.png' %}" class="login-logo" alt="Oriental Perfumes Logo" />
+        <h2>Log In to Your Account</h2>
+
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div class="form-group-login">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+              required
+            />
+          </div>
+          <div class="form-group-login pass">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <span
+              toggle="#password"
+              class="eye-toggle fa fa-eye field-icon toggle-password"
+            ></span>
+          </div>
+
+          <div class="form-group-last">
+            <div class="remember_me">
+              <label for="remember-me">Remember Me</label>
+              <input type="checkbox" id="remember-me" name="remember_me" />
+            </div>
+          </div>
+          <button type="submit">Log In</button>
+        </form>
+
+        <form
+          method="post"
+          class="reset_password_form"
+          action="{% url 'password_reset_request' %}"
+        >
+          {% csrf_token %}
+          <input type="hidden" id="reset_username" name="reset_username" />
+          <a
+            href="#"
+            class="forgot-password-link"
+            onclick="submitPasswordResetForm(); return false;"
+            >Forgot Password?</a
+          >
+        </form>
+
+        <!-- Messages section -->
+        {% if messages %}
+        <ul class="messages-ul">
+          {% for message in messages %}
+          <li
+            class="messages-li {% if message.tags %}{{ message.tags }}{% endif %}"
+          >
+            <div class="message-box">
+              {% if message.tags == 'error' %}
+              <!-- Error message icon -->
+              <span class="message-icon error-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-alert-circle text-red-500"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" x2="12" y1="8" y2="12" />
+                  <line x1="12" x2="12.01" y1="16" y2="16" />
+                </svg>
+              </span>
+              {% elif message.tags == 'success' %}
+              <!-- Success message icon -->
+              <span class="message-icon success-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-check-circle"
+                  style="color: #10b981"
+                >
+                  <path d="M22 11.07V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </span>
+              {% elif message.tags == 'warning' %}
+              <!-- Warning message icon -->
+              <span class="message-icon warning-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-alert-triangle"
+                  style="color: #f59e0b"
+                >
+                  <path
+                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
+                  />
+                  <path d="M12 9v4" />
+                  <path d="M12 17h.01" />
+                </svg>
+              </span>
+              {% endif %}
+              <!-- Message text -->
+              <span class="message-text" style="color: #777">{{ message }}</span>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Separator -->
+        <div class="separator">
+          <span class="line"></span>
+          <span class="text">Or</span>
+          <span class="line"></span>
+        </div>
+
+        <!-- Link to create a new account -->
+        <a class="back-link-login" href="{% url 'signup' %}">Create New Account</a>
+
+        <a href="{% url 'home' %}" class="back-home">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-left"><path d="M6 8L2 12L6 16"/><path d="M2 12H22"/></svg>
+          <span>Go to Home</span>
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <footer class="login-footer" >
+      <p>For assistance, please contact our customer support.</p>
+      <ul>
+          <li>Email: support@orientalperfumes.com</li>
+          <li>Phone: +123-456-7890</li>
+      </ul>
+      <p>&copy; 2024 Oriental Perfumes. All rights reserved.</p>
+    </footer>
+
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const passwordField = document.querySelector("#password");
+      const eyeToggle = document.querySelector(".eye-toggle");
+
+      eyeToggle.addEventListener("click", function () {
+        const type =
+          passwordField.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordField.setAttribute("type", type);
+
+        this.classList.toggle("fa-eye-slash");
+      });
+    });
+
+    function submitPasswordResetForm() {
+      var username = document.getElementById("username").value;
+      document.getElementById("reset_username").value = username;
+      document.forms[1].submit(); // Submit the password reset form
+    }
+  </script>
+  
+</html>

@@ -1,0 +1,262 @@
+
+.container-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    background: var(--background-color);
+    padding: 0; 
+    max-width: 1600px;
+    margin: auto;
+}
+
+
+.row-footer:first-child{
+    padding: 20px 40px;
+}
+
+.row-footer:last-child{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: auto;
+}
+
+.row-footer {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 10px;
+    
+}
+
+.column-footer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+    text-align: center; /* Center text horizontally */
+}
+
+.column-footer:last-child {
+    width: 30%; /* Make the last column wider */
+}
+
+.column-footer img {
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 10px;
+    filter: brightness(100%) saturate(100%);
+  }
+  
+.footer-company-info p {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  color: var(--primary-text);
+}
+
+.footer-company-info svg,
+.social-media svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  color: var(--icon-color);
+}
+
+.social-media ul {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.social-media li {
+  margin: 0 5px;
+}
+
+.customer-service{
+  margin-top: 40px;
+}
+
+.customer-service h4 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: var(--primary-text);
+  border-bottom: 1px solid var(--dim-blue-color);
+}
+
+.customer-service ul {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.customer-service li {
+  margin-bottom: 10px;
+}
+
+
+.customer-service a {
+  color: var(--primary-text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 14px;
+}
+
+.customer-service a:hover {
+  color: var(--highlight-blue-color);
+}
+
+.container-feedback-form {
+  width: 100%;
+  margin-top:40px ;
+}
+
+.container-feedback-form h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: var(--primary-text);
+  border-bottom: 1px solid var(--dim-blue-color);
+  width: max-content;
+}
+
+.feedback-form {
+  width: 100%;
+}
+
+.feedback-form input[type="email"],
+.feedback-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  box-sizing: border-box;
+  outline: none;
+  transition: var(--transition);
+}
+
+.feedback-form textarea {
+  height: 150px;
+}
+
+.feedback-form input[type="email"]:focus,
+.feedback-form textarea:focus {
+  border-color: var(--highlight-blue-color);
+}
+
+.feedback-form button[type="submit"] {
+  background-color: var(--highlight-blue-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.feedback-form button[type="submit"]:hover {
+  background-color: var(--dim-blue-color);
+}
+
+.row-footer p {
+  color: var(--primary-text);
+  font-size: 14px;
+  margin-bottom: 10px; /* Add bottom margin for spacing */
+}
+
+.footer-menu-items ul {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}
+
+.footer-menu-items li {
+  margin: 0 15px; /* Add margin between menu items */
+}
+
+.footer-menu-items a {
+  text-decoration: none;
+  color: var(--dim-blue-color);
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.footer-menu-items a:hover {
+  color: var(--highlight-blue-color);
+}
+
+.footer-menu-items p {
+  margin-top: 10px; /* Add top margin for spacing between text and icon */
+}
+
+.line-hr{
+width: 95%;
+height: 1px;
+background-color: var(--hr-line);
+}
+
+
+/* Responsive design for mobile devices */
+/* Adjust styles for screens up to 767px width */
+@media only screen and (max-width: 767px) {
+.column-footer img {
+  max-width: 150px; /* Decrease image width for smaller screens */
+  height: auto; /* Let the height adjust automatically */
+  margin-bottom: 5px; /* Reduce bottom margin for smaller screens */
+}
+
+.row-footer:first-child {
+  padding: 10px 20px; /* Reduce top and bottom padding for the first row */
+}
+
+.row-footer p{
+    font-size: 12px;
+}
+
+.customer-service h4 {
+  font-size: 16px;
+}
+
+.customer-service a {
+  font-size: 12px;
+}
+.container-feedback-form h2{
+    font-size: 16px;
+}
+}
+
+/* Tablet */
+/* Adjust styles for screens between 768px and 1023px width */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+/* Tablet-specific styles */
+.column-footer img {
+  max-width: 180px; /* Adjust image width for tablets */
+  height: auto; /* Let the height adjust automatically */
+}
+}
+
+/* Laptop */
+/* Adjust styles for screens between 1024px and 1439px width */
+@media only screen and (min-width: 1024px) and (max-width: 1439px) {
+/* Laptop-specific styles */
+/* No specific adjustments needed, but you can add enhancements if necessary */
+}
+
+/* Large screens */
+/* Adjust styles for screens 1440px width and above */
+@media only screen and (min-width: 1440px) {
+/* Large screen-specific styles */
+/* No specific adjustments needed, but you can add tailored styles for larger screens */
+}

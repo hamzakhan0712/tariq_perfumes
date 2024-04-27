@@ -1,0 +1,119 @@
+
+
+
+  .sidebar-nav {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .sidebar-nav li a{
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+  }
+  
+
+  .login{
+    display: none;
+    background-color: var(--green-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    margin: 10px 0;
+    padding: 10px;
+  }
+
+  .login:hover{
+    background-color: var(--green-hover) !important;
+    cursor: pointer;
+  }
+
+  .login a span,
+  .login a svg{
+    color: white;
+  }
+
+  .create {
+    display: none;
+      color: var(--button-color);
+      transition: var(--transition);
+      background-color: var(--button-color);
+      border-radius: var(--border-radius);
+      padding: 10px;
+  }
+
+  .create a:hover{
+    background-color: var(--button-hover);
+  }
+  
+  .create a span,
+  .create a svg{
+    color: white;
+  }
+
+  .logout{
+    display: none;
+    border: 1px solid var(--red-color);
+    border-radius: var(--border-radius);
+    padding: 5px;
+    transition: var(--transition);
+  }
+
+  .logout a img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+
+  }
+
+  .logout:hover{
+    background-color: #f8d7da;
+  }
+
+
+
+  /* Mobile-first approach */
+/* Default styles for mobile devices */
+/* Styles applied to all screen sizes unless overridden */
+
+/* Responsive design for mobile devices */
+/* Adjust styles for screens up to 767px width */
+@media only screen and (max-width: 767px) {
+  .login{
+    display: block;
+  }
+
+  .create {
+    display: block;
+  }
+
+  .logout{
+    display: block;
+  }
+
+
+}
+
+/* Tablet */
+/* Adjust styles for screens between 768px and 1023px width */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet-specific styles */
+  /* Optimizations for tablet-sized screens */
+}
+
+/* Laptop */
+/* Adjust styles for screens between 1024px and 1439px width */
+@media only screen and (min-width: 1024px) and (max-width: 1439px) {
+  /* Laptop-specific styles */
+  /* Enhancements for laptop-sized screens */
+}
+
+/* Large screens */
+/* Adjust styles for screens 1440px width and above */
+@media only screen and (min-width: 1440px) {
+  /* Large screen-specific styles */
+  /* Tailored styles for larger screens */
+}

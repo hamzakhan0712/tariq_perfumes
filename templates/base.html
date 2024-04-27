@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/all-products.css' %}" />
+  </head>
+
+  <body>
+
+    <nav >
+      {% include 'navbar.html' %}
+    </nav>
+
+    <div class="container">
+
+      <div id="sidebar">
+          {% include 'sidebar.html' %}
+      </div>
+
+      <div class="main-content" >
+        <main>
+            {% block content %} 
+            {% endblock content %}
+        </main>
+
+        <footer>
+            {% include 'footer.html' %}
+        </footer>
+
+      </div>
+
+    </div>
+
+  </body>
+
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+
+
+  {% block custom_js %} {% endblock custom_js %}
+</html>

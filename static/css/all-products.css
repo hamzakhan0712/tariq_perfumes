@@ -1,0 +1,487 @@
+/* CSS for Product List Page */
+.product-list {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1600px;
+    
+}
+
+.product-filter-row-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+}
+
+@media only screen and (max-width: 1179px) {
+    .product-list-row-1{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin: auto;
+        width: 100%;
+    }
+
+    .product-list-searchbar{
+        width: 100%;
+        margin-right: auto;
+    }
+
+    .product-list-options{
+        width: 100%;
+        margin: auto;
+    }
+}
+
+.product-list-searchbar {
+    width: 50%;
+    position: relative;
+}
+
+.product-list-searchbar svg{
+    position: absolute;
+    right: 52%;
+    top: 7px;
+    color: var(--primary-text);
+}
+
+.search-input{
+    width: 50%;
+    padding: 8px 18px;
+    padding-right: 42px;
+    border-radius: 24px;
+    background-color: var(--secondary-background);
+    color: var(--primary-text);
+    font-size: 0.975rem;
+    border: 1px solid var(--secondary-background);
+    outline:none;
+}
+
+.search-input::placeholder{
+    padding-left: 5px;
+    font-size: 0.875rem;
+}
+
+.product-list-options {
+    width: 50%;
+    display: flex;
+    gap: 10px;
+    justify-content: right;
+    align-items: center;
+
+}
+
+.filter-dropdown{
+    position: relative;
+    width: max-content;
+}
+
+.dropdown-toggle{
+    color: var(--secondary-text);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+    margin: auto 15px;
+    align-items: center;
+    min-height: 1.25rem;
+    font-size: 14px;
+    font-weight: 600;
+    gap: 0.25rem;
+    font-family: 'Open Sans', sans-serif;
+    flex-wrap: nowrap;
+    padding: 8px 0;
+    white-space: nowrap;
+    background: none;
+    display: flex;
+    transition: all 0.2s ease-in-out;
+    background-color: transparent;
+    
+}
+
+.dropdown-toggle svg {
+    margin-top: 2px;
+    color: var(--secondary-text);
+    transition: all 0.2s ease-in-out;
+}
+
+.dropdown-toggle:hover svg {
+    color: var(--dim-blue-color);
+}
+
+.dropdown-toggle:hover {
+    padding-bottom: 3px;
+    border-color: var(--light-blue);
+    color: var(--primary-text);
+}
+
+.dropdown-toggle:focus-within svg{
+    rotate: 180deg;
+    color: var(--primary-text);
+    fill: none;
+    
+}
+
+.dropdown-toggle:focus-within{
+    color: var(--primary-text);
+    background-color: var(--background-color);
+}
+
+.filter-dropdown:focus-within .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    height: min-content;
+    max-height: 250px;
+    overflow-y: auto;
+    scroll-behavior: smooth; /* Add smooth scrolling behavior */
+    padding: 5px;
+    list-style: none;
+    display: none;
+    background-color: rgba(12, 12, 23, 0.8);
+    position: absolute;
+    top: calc(100% + 5px); /* Adjust the distance between the button and the dropdown menu */
+    left: -100%;
+    z-index: 1; /* Ensure dropdown is above other content */
+    width: 250px; /* Make the dropdown menu full-width */
+    border-radius: 8px; /* Add some border-radius for rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+
+.dropdown-menu::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  .dropdown-menu::-webkit-scrollbar-track {
+    background: var(--secondary-background);
+  }
+  
+  /* Handle */
+  .dropdown-menu::-webkit-scrollbar-thumb {
+    background: var(--icon-color);
+    border-radius: 10px; /* Adjust border-radius as needed */
+    cursor: pointer;
+  }
+  
+  /* Handle on hover */
+  .dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-text); /* Change color on hover */
+  }
+  
+  /* Corner */
+  .dropdown-menu::-webkit-scrollbar-corner {
+    background: transparent; /* Hide scrollbar corner */
+  }
+
+.dropdown-menu li {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.dropdown-menu li:first-child{
+    display: flex;
+}
+
+.dropdown-menu li:first-child:hover{
+    background-color: var(--background-color);
+}
+
+.dropdown-item {
+    display: block;
+    color: var(--primary-text);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.975rem;
+    padding-left: 1rem;
+}
+
+.disabled-text {
+    text-align: center !important;
+    font-size: 0.875rem !important;
+    color: var(--secondary-text); /* Change color to indicate it's disabled */
+    cursor: default; /* Set cursor to default */
+}
+
+.disabled-hover:hover{
+    background-color: rgba(12, 12, 23, 0) !important;
+}
+
+
+.dropdown-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Add a hover effect */
+}
+
+.btn-primary{
+    background-color: var(--background-color);
+    color: var(--primary-text);
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    margin-left: 2px;
+}
+
+  
+.product-filter-row-2 {
+    width: 100%;
+    display: flex;
+    padding: 20px 0;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--secondary-background);
+    border-bottom: 1px solid var(--secondary-background);
+}
+
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the spacing between active filters */
+}
+
+.active-filters .filter {
+    background-color:var(--light-blue-background-hover); /* Background color for active filters */
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: var(--primary-text);
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.active-filters .filter .uil{
+    color: var(--red-color);
+    margin-left: 5px;
+    font-size: 1rem;
+}
+
+.results-found {
+    font-weight: bold;
+    color: var(--primary-text);
+    font-size: 0.875rem;
+}
+
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-input{
+    width: 100%;
+    padding: 8px 12px;
+    outline: none;
+    font-size: 0.875rem;
+    background-color: var(--secondary-background);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--primary-text);
+}
+
+.last-filter{
+    background-color: var(--secondary-background) !important;
+    border-radius: 8px;
+    color: var(--primary-text) !important;
+}
+
+.products-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjusted column width */
+    grid-auto-rows: minmax(300px, auto); /* Minimum row height for consistent card size */
+    grid-gap: 20px;
+    justify-items: center; /* Center-align items horizontally */
+    position: relative;
+}
+
+.product-card {
+    background-color: var(--primary-text);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    text-align: center; /* Center-align content */
+    transition: transform 0.3s ease; /* Add smooth transition on hover */
+    width: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Lift card slightly on hover */
+}
+
+.porduct-a-tag{
+    text-decoration: none;
+}
+
+.product-card:hover img{
+    cursor: pointer;
+    filter: brightness(100%);
+}
+
+.product-card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: fill;
+    border-radius: 8px;
+    filter: brightness(80%);
+    transition: var(--transition);
+}
+
+.product-card-body {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+
+.porduct-card-body-upper{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.product-card-title {
+    text-transform: capitalize;
+    font-size: 18px;
+    color: var(--background-color); 
+}
+
+.product-card-category{
+    color: var(--secondary-text);
+    font-size: 16px;
+}
+
+.product-price{
+    padding-left: 10px;
+}
+
+
+.product-card-previous-price{
+    text-decoration: line-through;
+    font-size: 14px;
+    color: var(--secondary-text);
+    margin-bottom: 5px;
+  }
+  
+  
+  .product-card-price{
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: var(--background-color);
+  }
+  
+  .porduct-card-body-lower{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .product-card-ratings{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ratings_stars{
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    align-items: flex-end;
+    color: var(--golden-color);
+    fill: var(--golden-color);
+  }
+
+  .ratings-stars svg{
+    color: var(--golden-color);
+  }
+
+  .product-card-average-rating{
+    font-weight: 100;
+    color: var(--primary-text);
+    font-size: 14px;
+    margin-left: auto;
+  }
+  
+
+  .Btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    overflow: hidden;
+    transition-duration: .3s;
+    background-color: var(--light-blue-background-hover);
+  }
+  
+  /* plus sign */
+  .sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sign svg {
+    color: var(--highlight-blue-color);
+  }
+
+  .text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: var(--background-color);
+    font-size: 0.875rem;
+    font-weight: 400;
+    transition-duration: .3s;
+    margin-left: 5px !important;
+  }
+  /* hover effect on button width */
+  .Btn:hover {
+    width: 145px;
+    border-radius: 40px;
+    transition-duration: .3s;
+  }
+  
+  .Btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 20px;
+  }
+  /* hover effect button's text */
+  .Btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px;
+  }
+  /* button click effect*/
+  .Btn:active {
+    transform: translate(2px ,2px);
+  }
+
+
+
+.no-products-message{
+    color: var(--primary-text);
+    font-size: 1.5rem;
+    font-weight: 400;
+    position: absolute;
+}

@@ -1,0 +1,336 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<main class="shopping-cart">
+
+    <h1 class="page-title">Shopping Cart</h1>
+
+    <div class="payment-stages">
+        <div class="stage-container">
+        <div class="stage-radio activ"></div>
+        <div class="stage">Cart</div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+        </div>
+        <div class="stage-container">
+        <div class="stage-radio"></div>
+        <div class="stage">Order</div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+        </div>
+        <div class="stage-container">
+        <div class="stage-radio"></div>
+        <div class="stage">Review</div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+        </div>
+        <div class="stage-container">
+        <div class="stage-radio"></div>
+        <div class="stage">Payment</div>
+        </div>
+        <div class="stage-container">
+            <div class="stage-radio"></div>
+            <div class="stage">Confirmation</div>
+            </div>
+    </div>
+
+    <div class="cart-form">
+
+        <section aria-labelledby="cart-heading" class="cart-items">
+
+        <ul class="cart-list">
+            {% for item in cart_items %}
+            <li class="cart-item" data-order-item-id="{{ item.id }}" data-quantity="{{ item.quantity }}" data-total-price="{{ item.price }}">
+            <a href="#" class="remove-item-link" onclick="deleteCartItem('{{ item.id }}')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+            </a>
+            
+            <script>
+                
+            </script>
+            
+            <div class="item-details">
+                <div class="item-image">
+                    <img src="{{ item.product.main_image_url }}" alt="{{ item.product.name }}">
+                </div>
+                <div class="item-info">
+                    <span class="item-name">{{ item.product.name }}</span>
+                    <div class="category-sybcategory">
+                        <span class="item-category">{{ item.product.categories.all.0 }}</span>
+                        <span class="divider"></span>
+                        <span class="item-unit">{{ item.product.quantity }} {{ item.product.unit }}</span>
+                    </div>
+                    <div class="priceing">
+                        <span class="item-price">₹{{ item.price }}/-</span>
+                        <span class="item-previous-price">₹{{ item.product.previous_price }}/-</span>
+                    </div>
+                            
+                    <div class="quantity-counter">
+                        <a href="#" onclick="removeFromCart({{ item.product.id }})" class="quantity_btn decrease_btn" data-product-id="{{ item.product.id }}">-</a>
+                        <span class="quantity" id="quantity_{{ item.product.id }}">{{ item.quantity }}</span>
+                        <a href="#" onclick="addToCart({{ item.product.id }})" class="quantity_btn increase_btn" data-product-id="{{ item.product.id }}">+</a>
+                    </div>
+
+                    <script>
+                            function addToCart(product_id) {
+                            fetch(`/add_to_cart/${product_id}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': getCookie('csrftoken'), // Fetch CSRF token from cookie
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data.new_quantity); // Handle new quantity
+                                updateQuantity(product_id, data.new_quantity); // Update quantity in UI
+                                updateCartSummary(data);
+                            })
+                            .catch(error => console.error('Error:', error));
+                        }
+                
+                        function removeFromCart(product_id) {
+                            fetch(`/remove_from_cart/${product_id}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': getCookie('csrftoken'), // Fetch CSRF token from cookie
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data.new_quantity); // Handle new quantity
+                                updateQuantity(product_id, data.new_quantity); // Update quantity in UI
+                                updateCartSummary(data);
+                            })
+                            .catch(error => console.error('Error:', error));
+                        }
+                
+                        function updateQuantity(product_id, newQuantity) {
+                            const quantityElement = document.getElementById(`quantity_${product_id}`);
+                            quantityElement.innerText = newQuantity;
+                        }
+
+                        function deleteCartItem(itemId) {
+                            fetch(`/delete_from_cart/${itemId}/`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    // If deletion is successful, remove the item from the DOM
+                                    const itemElement = document.querySelector(`.cart-item[data-order-item-id="${itemId}"]`);
+                                    if (itemElement) {
+                                        itemElement.remove();
+                                        return response.json(); // Parse response JSON
+                                    }
+                                } else {
+                                    console.error('Failed to delete item from cart');
+                                }
+                            })
+                            .then(data => {
+                                // Update cart summary with data from the server
+                                if (data) {
+                                    updateCartSummary(data);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                        }
+                
+                
+                        function updateCartSummary(data) {
+                            // Update Subtotal
+                            document.querySelector('.subtotal').textContent = '₹' + data.subtotal.toFixed(2);
+                            
+                            // Update Shipping Estimate
+                            const shippingElement = document.querySelector('.shipping');
+                            if (data.shipping_estimate === 0) {
+                                shippingElement.textContent = 'Free';
+                            } else {
+                                shippingElement.textContent = '₹' + data.shipping_estimate.toFixed(2);
+                            }
+                            
+                            // Update Tax Estimate
+                            document.querySelector('.tax').textContent = '₹' + data.tax_estimate.toFixed(2);
+                            
+                            // Update Total Amount
+                            document.querySelector('.total').textContent = '₹' + data.total_amount.toFixed(2);
+                        }
+                
+                        // Function to get CSRF token from cookie
+                        function getCookie(name) {
+                            let cookieValue = null;
+                            if (document.cookie && document.cookie !== '') {
+                                const cookies = document.cookie.split(';');
+                                for (let i = 0; i < cookies.length; i++) {
+                                    const cookie = cookies[i].trim();
+                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
+                        }
+                    </script>
+
+                    <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                            const decreaseBtns = document.querySelectorAll('.decrease_btn');
+                            const increaseBtns = document.querySelectorAll('.increase_btn');
+                            const quantitySpans = document.querySelectorAll('.quantity');
+                            const subtotalParagraph = document.querySelector('.subtotal');
+                            const shippingParagraph = document.querySelector('.shipping');
+                            const taxParagraph = document.querySelector('.tax');
+                            const totalParagraph = document.querySelector('.total');
+                        
+                            const pricePerItems = [];
+                            const quantities = [];
+                        
+                            // Retrieve price per item and quantity for each item in the cart
+                            {% for item in cart_items %}
+                                pricePerItems.push({{ item.product.price }});
+                                quantities.push({{ item.quantity }});
+                            {% endfor %}
+                        
+                            function updateTotals() {
+                                let subtotal = 0;
+                                quantities.forEach((quantity, index) => {
+                                    subtotal += quantity * pricePerItems[index];
+                                });
+                                subtotalParagraph.textContent = `₹${subtotal.toFixed(2)}`;
+                        
+                                // Calculate total quantity
+                                let totalQuantity = quantities.reduce((total, quantity) => total + quantity, 0);
+                        
+                                // Calculate shipping price (assume free if total order exceeds 5000)
+                                let shippingPrice = totalQuantity * 100; // Example shipping price per item
+                                if (subtotal > 5000) {
+                                    shippingPrice = 0; // Free shipping if total order exceeds 5000 rupees
+                                }
+                                shippingParagraph.textContent = shippingPrice === 0 ? 'Free' : `₹${shippingPrice}`;
+                        
+                                // Calculate tax (assuming tax percentage is applied to subtotal)
+                                let taxPercentage = 0.05; // Example tax percentage
+                                let tax = subtotal * taxPercentage;
+                                taxParagraph.textContent = `₹${tax.toFixed(2)}`;
+                        
+                                // Calculate total amount
+                                let totalAmount = subtotal + shippingPrice + tax;
+                                totalParagraph.textContent = `₹${totalAmount.toFixed(2)}`;
+                            }
+                        
+                            // Add event listeners to update quantities
+                            decreaseBtns.forEach((decreaseBtn, index) => {
+                                decreaseBtn.addEventListener('click', function() {
+                                    if (quantities[index] > 1) {
+                                        quantities[index]--;
+                                        quantitySpans[index].textContent = quantities[index];
+                                        updateTotals();
+                                    
+                                    }
+                                });
+                            });
+                        
+                            increaseBtns.forEach((increaseBtn, index) => {
+                                increaseBtn.addEventListener('click', function() {
+                                    quantities[index]++;
+                                    quantitySpans[index].textContent = quantities[index];
+                                    updateTotals();
+                                });
+                            });
+                        
+                            // Initial update
+                            updateTotals();
+                        });
+
+                    
+                    </script>
+                    
+        
+                    {% if item.product.in_stock_retail and not item.product.in_stock_wholesale %}
+                        <span class="item-stock">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                            In Stock (Retail)
+                        </span>
+                    {% elif not item.product.in_stock_retail and item.product.in_stock_wholesale %}
+                        <span class="item-stock">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                            In Stock (Wholesale)
+                        </span>
+                    {% elif item.product.in_stock_retail and item.product.in_stock_wholesale %}
+                        <span class="item-stock">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                            In Stock (Retail and Wholesale)
+                        </span>
+                    {% else %}
+                        <span class="item-stock clock">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16.5 12"/></svg>
+                            Coming Soon
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+        
+            {% empty %}
+            <li class="empty-cart-message">Your cart is empty</li>
+            {% endfor %}
+        </ul>
+
+        </section>
+
+        <section aria-labelledby="summary-heading" class="order-summary">
+        <h2 id="summary-heading" class="section-title">Order summary</h2>
+
+            <div class="summary-details">
+                <div class="summary-row">
+                    <p class="label">Subtotal</p>
+                    <p class="value subtotal">₹</p>
+                </div>
+                <div class="summary-row">
+                    <p class="label">Shipping Estimate</p>
+                    <p class="value shipping">
+                        {% if shipping_price == 0 %}
+                            Free
+                        {% else %}
+                            ₹
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="summary-row">
+                    <p class="label">Tax Estimate</p>
+                    <p class="value tax">₹</p>
+                </div>
+                <div class="summary-row">
+                    <p class="label">Total Amount</p>
+                    <p class="value total">₹</p>
+                </div>
+            </div>
+
+            <a href="#" class="checkout-button">Checkout</a>
+
+        </section>
+
+    </div>
+
+    <section aria-labelledby="related-heading" class="related-products">
+        <h2 id="related-heading" class="section-title">You may also like…</h2>
+        <div class="related-products-list">
+        <!-- Related products will go here -->
+        </div>
+    </section>
+
+</main>
+
+    
+
+{% endblock content %}

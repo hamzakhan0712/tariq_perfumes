@@ -1,0 +1,346 @@
+{% load static %}
+
+<div class="navbar">
+  <i id="sidebar-toggle-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-align-justify"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+  </i>
+  
+  <div class="logo-container">
+    <a href="{% url 'home' %}" class="logo-link">
+      <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="logo-img" />
+      <h2 class="brand-name">TARIQ PERFUMES</h2>
+    </a>
+  </div>
+
+  <div class="search-tabs-container">
+    {% if user.is_authenticated %}
+    <a href="{% url 'cart' %}" class="user-action cart" id="cart-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+      </svg>
+      <span class="cart-count" id="cart-count">0</span>
+    </a>
+    
+    <script>
+        function fetchCartCount() {
+            // Check if the current page is the cart page
+            const isCartPage = window.location.pathname === "{% url 'cart' %}";
+    
+            if (!isCartPage) {
+                fetch('/get_cart_count/')
+                    .then(response => response.json())
+                    .then(data => {
+                        const cartCount = document.getElementById('cart-count');
+                        cartCount.textContent = data.count; // Update cart count
+                    })
+                    .catch(error => console.error('Error fetching cart count:', error));
+            } else {
+                // Hide the cart count element on the cart page
+                const cartCount = document.getElementById('cart-count');
+                cartCount.style.display = 'none';
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', fetchCartCount);
+    </script>
+  
+    
+    {% else %}
+      <a href="{% url 'signup' %}" class="user-action signup-user-action">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+        <span> New Account !</span>
+      </a>
+    {% endif %}
+
+
+
+    <span class="divider"></span>
+
+    <div class="dropdown">
+      <button class="material-symbols-outlined">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#8c8c8c" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+      </button>
+      <div class="menu">
+        <button>
+          <img src="#" />
+          <span>Account</span>
+        </button>
+        <button>
+          <span></span>
+          <span>Search</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -1794px"></span>
+          <span>Maps</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -3174px"></span>
+          <span>YouTube</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -897px"></span>
+          <span>Play</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -414px"></span>
+          <span>News</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -2415px"></span>
+          <span>Gmail</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -1104px"></span>
+          <span>Meet</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -69px"></span>
+          <span>Chat</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -1449px"></span>
+          <span>Contacts</span>
+        </button>
+        <button>
+          <span style="background-position: 0 0"></span>
+          <span>Drive</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -759px"></span>
+          <span>Calendar</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -2346px"></span>
+          <span>Translate</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -966px"></span>
+          <span>Photos</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -2070px"></span>
+          <span>Ad Centre</span>
+        </button>
+        <button>
+          <span style="background-position: 0 -1932px"></span>
+          <span>Shopping</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="user-actions">
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="user-action">
+        <img class="logout-img" src="{% static 'svg/user.svg' %}" alt="user SVG">
+      </a>
+      {% else %}
+      <a href="{% url 'login' %}" class="user-action login-user-action">
+        <svg class="user-svg" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-user"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>     
+        <span>Login</span>
+      </a>
+      
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>
+
+<div class="navbar-menu" id="navbar">
+    <div class="navigation-container">
+      <button type="button" disabled id="action-button--previous" class="action-button--horizontal-scroll">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+      <ul class="navigation"  id="navList">
+        <li>
+          <a href="{% url 'all_products' %}">
+            All Products
+            <svg aria-hidden="true" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" />
+            </svg>
+          </a>
+        </li>
+        <li>
+          <span class="divider"></span>
+        </li>
+        <li style="color:#5ea8f8;cursor: default;" >
+          Categories:
+        </li>
+        {% for category in categories_with_subcategories %}
+          <li>
+            <button>
+              {% if category.subcategory_set.all %}
+              {{ category.name }}
+              {% else %}
+              <a href="/all_products?category={{ category.name }}">
+                {{ category.name }}
+              </a>
+              {% endif %}
+              {% if category.subcategory_set.all %}
+                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16">
+                    <path
+                        d="M12.78 5.22a.749.749 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06 0L3.22 6.28a.749.749 0 1 1 1.06-1.06L8 8.939l3.72-3.719a.749.749 0 0 1 1.06 0Z">
+                    </path>
+                </svg>
+              {% endif %}
+            </button>
+            {% if category.subcategory_set.all %}
+            <div class="dropdown__wrapper">
+              <div class="dropdown-nav">
+                <div class="category-image-container">
+                  <a href="/all_products?category={{ category.name }}">
+                    <img class="category-image" src="{{ category.image_url }}" alt="{{ category.name }} Image">
+                  </a>
+                </div>
+                <ul class="list-items-with-description">
+                  {% for subcategory in category.subcategory_set.all %}
+                  <a href="/all_products?subcategory={{ subcategory.name }}">
+                    <li>
+                      <img class="card-menu-img" src="{{ subcategory.image_url }}" alt="{{ subcategory.name }} Image">
+                        <div class="item-title">
+                            <h3>{{ subcategory.name }}</h3>
+                            <p>{{ subcategory.description }}</p>
+                        </div>
+                    </li>
+                  </a>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>  
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul> 
+      <button type="button" id="action-button--next" class="action-button--horizontal-scroll">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    </div>
+</div>
+
+
+
+
+<script>
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+    const sidebar = document.getElementById("sidebar");
+    const container = document.querySelector('.container');
+    const mainContent = document.querySelector('.main-content');
+    const navbar = document.querySelector('.navbar');
+    const navbarmenu = document.querySelector('.navbar-menu');
+    const action_button_pervious = document.getElementById("action-button--previous");
+    const action_button_next = document.getElementById("action-button--next");
+
+    sidebarToggleBtn.addEventListener("click", function(event) {
+        event.stopPropagation(); 
+        sidebar.classList.toggle("open"); 
+    });
+
+    var ticking = false;
+    var lastScrollTop = 0;
+
+    mainContent.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                var currentScroll = mainContent.scrollTop;
+                if (currentScroll > lastScrollTop) {
+                 
+                    navbar.classList.add('small');
+                    navbarmenu.classList.add('top');
+                } else {
+                 
+                    navbar.classList.remove('small');
+                    navbarmenu.classList.remove('top');
+                }
+                lastScrollTop = currentScroll;
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+});
+
+
+
+  const bankAccounts = document.getElementById('navList');
+
+  let isDown = false;
+  let startX;
+  let startY;
+  let scrollLeft;
+  let scrollTop;
+
+  bankAccounts.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - bankAccounts.offsetLeft;
+    startY = e.pageY - bankAccounts.offsetTop;
+    scrollLeft = bankAccounts.scrollLeft;
+    scrollTop = bankAccounts.scrollTop;
+    bankAccounts.style.cursor = 'grabbing';
+  });
+
+  bankAccounts.addEventListener('mouseleave', () => {
+    isDown = false;
+    bankAccounts.style.cursor = 'grab';
+  });
+
+  bankAccounts.addEventListener('mouseup', () => {
+    isDown = false;
+    bankAccounts.style.cursor = 'grab';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - bankAccounts.offsetLeft;
+    const y = e.pageY - bankAccounts.offsetTop;
+    const walkX = (x - startX) * 1; 
+    const walkY = (y - startY) * 1; 
+    bankAccounts.scrollLeft = scrollLeft - walkX;
+    bankAccounts.scrollTop = scrollTop - walkY;
+  });
+
+  const scrollLeftButton = document.getElementById(
+    'action-button--previous');
+  const scrollRightButton = document.getElementById(
+    'action-button--next');
+
+  scrollLeftButton.addEventListener('click', () => {
+      bankAccounts.scrollBy({
+          top: 0, 
+          left: -200, 
+          behavior: 'smooth'
+      });
+  });
+
+  scrollRightButton.addEventListener('click', () => {
+      bankAccounts.scrollBy({
+          top: 0, 
+          left: 200, 
+          behavior: 'smooth'
+      });
+  });
+
+  bankAccounts.addEventListener('scroll', (e) => {
+      const position = bankAccounts.scrollLeft;
+      if (position === 0) {
+        scrollLeftButton.disabled = true;
+      } else {
+        scrollLeftButton.disabled = false;
+      }
+
+      if (
+        Math.round(position) === 
+        bankAccounts.scrollWidth - 
+        bankAccounts.clientWidth
+      ) {
+        scrollRightButton.disabled = true;
+      } else {
+        scrollRightButton.disabled = false;
+      }
+  });
+
+  
+  
+</script>

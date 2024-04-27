@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Oriental Perfumes</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}">
+    <!-- Add meta tags for SEO -->
+    <meta name="description" content="Sign up to experience the exotic scents of our oriental perfumes. Create your account now!">
+    <meta name="keywords" content="oriental perfume, sign up, create account, fragrance, exotic scents">
+    <meta name="author" content="Your Company Name">
+
+        <!-- Include Font Awesome for the eye icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+    <body>
+        
+        <div class="signup-main-container">
+
+            <div class="signup-svg-container">     
+                <div class="signup-text">
+                    <h1>Welcome to <span class="brand-name">TARIQ</span> Perfumes</h1>
+                    <p>Indulge in the essence of luxury with TARIQ Perfumes, where every scent tells a unique story.</p>
+                    <p>Create your account today and Explore our exquisite collection of oriental perfumes </p>
+                </div>
+
+                <img class="signup-svg" src="{% static 'svg/signup.svg' %}" alt="signup SVG" />
+            
+            </div>
+            
+            <div class="form-container-signup">
+                <img src="{% static 'images/logo.png' %}" class="signup-logo" alt="Oriental Perfumes Logo">
+                <h2>Create Your Account</h2>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" id="full_name" name="full_name" placeholder="Full Name" required>
+                    <input type="email" id="email" name="email" placeholder="Email (Active E-mail Id )" required>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <div class="form-group-signup">
+                        <input type="password" id="password" name="password" placeholder="Create Password" required>
+                        <span toggle="#password" class="eye-toggle fa fa-eye field-icon toggle-password"></span>
+                    </div>
+                    <div class="form-group-signup">
+                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                        <span toggle="#confirm_password" class="eye-toggle fa fa-eye field-icon toggle-password"></span>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </form>
+                {% if messages %}
+                    <ul class="messages-ul">
+                        {% for message in messages %}
+                            <li class="messages-li" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-circle"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <p>Already have an account? <a class="back-link-signup" href="{% url 'login' %}">Log in here</a>.</p>
+                <a href="{% url 'home' %}" class="back-home">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-left"><path d="M6 8L2 12L6 16"/><path d="M2 12H22"/></svg>
+                    <span>Go to Home</span>
+                </a>
+            </div>
+            
+        </div>
+
+        <footer class="signup-footer" >
+            <p>For assistance, please contact our customer support.</p>
+            <ul>
+                <li>Email: support@orientalperfumes.com</li>
+                <li>Phone: +123-456-7890</li>
+            </ul>
+            <p>&copy; 2024 Oriental Perfumes. All rights reserved.</p>
+        </footer>
+
+    </body>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordField = document.querySelector('#password');
+            const confirmPasswordField = document.querySelector('#confirm_password');
+            const eyeToggles = document.querySelectorAll('.eye-toggle');
+
+            // Toggle password visibility
+            eyeToggles.forEach(function(toggle) {
+                toggle.addEventListener('click', function() {
+                    const fieldId = this.getAttribute('toggle');
+                    const field = document.querySelector(fieldId);
+                    const type = field.getAttribute('type') === 'password' ? 'text' : 'password';
+                    field.setAttribute('type', type);
+
+                    this.classList.toggle('fa-eye-slash');
+                });
+            });
+        });
+    </script>
+    
+</html>

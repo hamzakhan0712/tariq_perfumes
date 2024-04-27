@@ -1,0 +1,78 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/topbar.css' %}" />
+
+<ul class="category-list">
+    {% for category in categories_with_subcategories %}
+        <li class="category-item">
+            <div class="category-name">
+                {{ category.name }}
+                {% if category.subcategory_set.all %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                {% endif %}
+            </div>
+            {% if category.subcategory_set.all %}
+                <div class="dropdown-card">
+                    <div class="subcategory-container-image-dropdown">
+                        <img class="card-menu-img" src="{{ category.image_url }}" alt="{{ category.name }} Image">
+                    </div>
+                    <div class="subcategory-container-dropdown">
+                        {% for subcategory in category.subcategory_set.all %}
+                        <div class="card-menu">
+                            <img class="card-menu-img" src="{{ subcategory.image_url }}" alt="{{ subcategory.name }} Image">
+                            <div class="card-menu-details">
+                                <p class="menu-title">{{ subcategory.name }}</p>
+                                <p class="menu-description">{{ subcategory.description }}</p>
+                            </div>
+                        </div>
+                        <div class="card-menu">
+                            <img class="card-menu-img" src="{{ subcategory.image_url }}" alt="{{ subcategory.name }} Image">
+                            <div class="card-menu-details">
+                                <p class="menu-title">{{ subcategory.name }}</p>
+                                <p class="menu-description">{{ subcategory.description }}</p>
+                            </div>
+                        </div>
+                        <div class="card-menu">
+                            <img class="card-menu-img" src="{{ subcategory.image_url }}" alt="{{ subcategory.name }} Image">
+                            <div class="card-menu-details">
+                                <p class="menu-title">{{ subcategory.name }}</p>
+                                <p class="menu-description">{{ subcategory.description }}</p>
+                            </div>
+                        </div>
+                        <div class="card-menu">
+                            <img class="card-menu-img" src="{{ subcategory.image_url }}" alt="{{ subcategory.name }} Image">
+                            <div class="card-menu-details">
+                                <p class="menu-title">{{ subcategory.name }}</p>
+                                <p class="menu-description">{{ subcategory.description }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<script>
+
+    // Get all category items
+    const categoryItems = document.querySelectorAll('.category-item');
+
+    // Close dropdowns when clicked outside
+    document.addEventListener('click', function(event) {
+        categoryItems.forEach(function(item) {
+            if (!item.contains(event.target)) {
+                item.classList.remove('active');
+            }
+        });
+    });
+
+    // Toggle active class on click
+    categoryItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            item.classList.toggle('active');
+        });
+    });
+
+</script>

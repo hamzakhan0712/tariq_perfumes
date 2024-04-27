@@ -1,0 +1,204 @@
+:root {
+  --background-color:#0c0c17;
+  --secondary-background: #2d2c34;
+  --primary-text:#f1f1f1;
+  --secondary-text:#838383;
+  --hover-background-color:#323b4c;
+  --icon-color:#4d4f5d;
+  --highlight-blue-color:#007bff;
+  --light-blue:#5ea8f8;
+  --dim-blue-color:#0056b3;
+  --light-blue-background-hover:#6693c223;
+  --hr-line:#2d2c34;
+
+  --transition: all .3s ease-in-out;
+  --border-radius: 0.375rem;
+
+  --green-color:#0ae16e;
+  --red-color:#dc143c;
+  --golden-color:#FFD700;
+
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  overflow-y: hidden; /* Changed from overflow: hidden to overflow-y: hidden to only hide vertical overflow */
+  background-color: var(--background-color);
+  height: 100vh;
+  animation: fadeInBody 0.5s ease forwards;
+}
+
+@keyframes fadeInBody {
+  from {
+    opacity: 0; /* Start with zero opacity */
+    
+  }
+  to {
+    opacity: 1; /* Fade in to full opacity */
+
+  }
+}
+
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background:rgb(12, 12, 23); /* Added a background color for better visibility */
+  transition: var(--transition);
+}
+
+
+
+.container {
+  display: flex;
+  align-items: center;
+  max-width: 100%; 
+  overflow-y: auto; 
+  height: 100%;
+  margin: 0;
+  transition: var(--transition);
+}
+
+
+#sidebar {
+  width: 250px;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: var(--primary-text); /* Example background color */
+  position: fixed;
+  top: 4rem;
+  left: -250px; /* Hide sidebar by default */
+  transition: left 0.3s ease;
+  padding: 10px;
+  padding-right: 0;
+  z-index: 10001;
+  border-right: 1px solid var(--active-color);
+  scrollbar-color: var(--icon-color);
+}
+
+#sidebar.open {
+  left: 0px;
+  width: 250px;
+  z-index: 100;
+}
+
+/* For WebKit browsers */
+#sidebar::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* Track */
+#sidebar::-webkit-scrollbar-track {
+  background: var(--primary-text); /* Color of the track */
+}
+
+/* Handle */
+#sidebar::-webkit-scrollbar-thumb {
+  background: var(--icon-color); /* Color of the scrollbar handle */
+}
+
+
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 100%;
+  padding: 0 20px;
+  padding-top: 9rem;
+  scroll-behavior: smooth; /* Add smooth scrolling behavior */
+}
+
+/* For WebKit browsers */
+.main-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.main-content::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+/* Handle */
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--icon-color);
+  border-radius: 10px; /* Adjust border-radius as needed */
+  cursor: pointer;
+}
+
+/* Handle on hover */
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-text); /* Change color on hover */
+}
+
+/* Corner */
+.main-content::-webkit-scrollbar-corner {
+  background: transparent; /* Hide scrollbar corner */
+}
+
+footer {
+  width: 100%;
+}
+
+
+@media only screen and (max-width: 767px) {
+
+  nav{
+    height: 5rem !important;
+  }
+
+  .container{
+    padding-top: 5rem;
+  }
+
+  .main-content::-webkit-scrollbar {
+    width: 0; /* Set width to 0 to hide the scrollbar */
+  }
+
+
+}
+
+
+.payment-stages {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+  margin-right: auto;
+}
+.stage-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.stage-container svg{
+  color: var(--primary-text);
+  margin-left: 1rem;
+}
+
+.stage-radio {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stage {
+  font-size: 14px;
+  color: var(--primary-text);
+}
+.activ {
+  color: #fff;
+  border: 3px solid #007bff;
+}
